@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block title %}Request a Construction Quotation | Jenga Construction Limited{% endblock %}
+{% block meta_description %}Request a formal construction and civil engineering quotation from Jenga Construction Limited in Nairobi, Kenya. Fast project review and transparent estimation.{% endblock %}
+
+{% block content %}
+<section style="background-color: var(--color-primary-black); color: var(--color-white); padding: 3.5rem 0; border-bottom: 3px solid var(--color-construction-yellow);">
+  <div class="container">
+    <div style="color: var(--color-construction-yellow); font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">
+      Estimation &bull; Tender Enquiry
+    </div>
+    <h1 style="color: var(--color-white); font-size: 2.5rem;">Request a Construction Quotation</h1>
+    <p style="color: #9CA3AF; font-size: 1.0625rem; max-width: 44rem; margin-top: 0.75rem;">
+      Provide your site details and specifications below. Our engineering and estimating team in Nairobi will analyze your requirements.
+    </p>
+  </div>
+</section>
+
+<section style="padding: 4rem 0;">
+  <div class="container" style="max-width: 860px;">
+    {% if form.errors %}
+      <div class="demo-banner" style="background-color: #FEE2E2; border-color: #DC2626; color: #991B1B; margin-bottom: 2rem;">
+        Please review the highlighted fields below and provide valid information.
+      </div>
+    {% endif %}
+
+    <div class="form-card">
+      <form action="{% url 'enquiries:quote_request' %}" method="post" novalidate>
+        {% csrf_token %}
+
+        <!-- Hidden honeypot field for anti-bot defense -->
+        <div style="display: none;">
+          {{ form.website_url }}
+        </div>
+
+        <h3 style="font-size: 1.25rem; margin-bottom: 1.25rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border);">
+          1. Client Contact Details
+        </h3>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+            <label for="{{ form.full_name.id_for_label }}" class="form-label">Full Name or Company *</label>
+            {{ form.full_name }}
+            {% if form.full_name.errors %}
+              <div class="form-error">{{ form.full_name.errors.0 }}</div>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <label for="{{ form.phone_number.id_for_label }}" class="form-label">Kenyan Phone Number *</label>
+            {{ form.phone_number }}
+            <small style="color: var(--color-muted); font-size: 0.75rem;">e.g., 0792 729 492 or +254 792 729 492</small>
+            {% if form.phone_number.errors %}
+              <div class="form-error">{{ form.phone_number.errors.0 }}</div>
+            {% endif %}
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+          <div class="form-group">
+            <label for="{{ form.email.id_for_label }}" class="form-label">Email Address (Optional)</label>
+            {{ form.email }}
+            <small style="color: var(--color-muted); font-size: 0.75rem;">For formal PDF estimates &amp; written tracking</small>
+            {% if form.email.errors %}
+              <div class="form-error">{{ form.email.errors.0 }}</div>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <label for="{{ form.preferred_contact_method.id_for_label }}" class="form-label">Preferred Response Method</label>
+            {{ form.preferred_contact_method }}
+            {% if form.preferred_contact_method.errors %}
+              <div class="form-error">{{ form.preferred_contact_method.errors.0 }}</div>
+            {% endif %}
+          </div>
+        </div>
+
+        <h3 style="font-size: 1.25rem; margin-bottom: 1.25rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border);">
+          2. Project Scope &amp; Specifications
+        </h3>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+            <label for="{{ form.service.id_for_label }}" class="form-label">Service Discipline</label>
+            {{ form.service }}
+            {% if form.service.errors %}
+              <div class="form-error">{{ form.service.errors.0 }}</div>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <label for="{{ form.project_location.id_for_label }}" class="form-label">Site Location in Kenya *</label>
+            {{ form.project_location }}
+            <small style="color: var(--color-muted); font-size: 0.75rem;">e.g., Kilimani, Nairobi / Thika Road / Karen / Naivasha</small>
+            {% if form.project_location.errors %}
+              <div class="form-error">{{ form.project_location.errors.0 }}</div>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label for="{{ form.project_description.id_for_label }}" class="form-label">Detailed Project Scope *</label>
+          {{ form.project_description }}
+          <small style="color: var(--color-muted); font-size: 0.75rem;">Include building dimensions, site topography, road length, structural levels, or drainage conditions.</small>
+          {% if form.project_description.errors %}
+            <div class="form-error">{{ form.project_description.errors.0 }}</div>
+          {% endif %}
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+          <div class="form-group">
+            <label for="{{ form.estimated_budget.id_for_label }}" class="form-label">Target Budget (KES, Optional)</label>
+            {{ form.estimated_budget }}
+            {% if form.estimated_budget.errors %}
+              <div class="form-error">{{ form.estimated_budget.errors.0 }}</div>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <label for="{{ form.preferred_start_date.id_for_label }}" class="form-label">Target Start Date (Optional)</label>
+            {{ form.preferred_start_date }}
+            {% if form.preferred_start_date.errors %}
+              <div class="form-error">{{ form.preferred_start_date.errors.0 }}</div>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 2rem;">
+          <label class="form-check">
+            {{ form.consent }}
+            <span>{{ form.consent.label }}</span>
+          </label>
+          {% if form.consent.errors %}
+            <div class="form-error">{{ form.consent.errors.0 }}</div>
+          {% endif %}
+        </div>
+
+        <div style="background-color: var(--color-light-bg); padding: 1rem 1.25rem; border-radius: 4px; font-size: 0.8125rem; color: var(--color-muted); margin-bottom: 1.5rem;">
+          <strong>Notice:</strong> Submission of this quotation request represents an initial inquiry and preliminary estimation review. It does not constitute a legally binding contractual quote or obligation until a formal Bill of Quantities (BOQ) is executed.
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.875rem; font-size: 1rem;">
+          Submit Quotation Request
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}Project Portfolio | Jenga Construction Limited Nairobi Kenya{% endblock %}
+{% block meta_description %}Browse Jenga Construction Limited's portfolio of civil engineering, roads, bridges, commercial buildings, and landscaping projects across Kenya.{% endblock %}
+
+{% block content %}
+<section style="background-color: var(--color-primary-black); color: var(--color-white); padding: 3.5rem 0; border-bottom: 3px solid var(--color-construction-yellow);">
+  <div class="container">
+    <div style="color: var(--color-construction-yellow); font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">
+      Track Record &bull; Demonstrations
+    </div>
+    <h1 style="color: var(--color-white); font-size: 2.5rem;">Construction Portfolio &amp; Projects</h1>
+    <p style="color: #9CA3AF; font-size: 1.0625rem; max-width: 44rem; margin-top: 0.75rem;">
+      Explore our civil works, bridge engineering, residential frameworks, and landscape transformations.
+    </p>
+  </div>
+</section>
+
+<section style="padding: 3.5rem 0;">
+  <div class="container">
+    <!-- Category Filter Bar -->
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--color-border);">
+      <a
+        href="{% url 'projects:project_list' %}"
+        class="btn {% if not selected_service_slug %}btn-dark{% else %}btn-outline-dark{% endif %}"
+        style="font-size: 0.8125rem; padding: 0.45rem 1rem;"
+      >
+        All Categories
+      </a>
+      {% for s in services %}
+        <a
+          href="{% url 'projects:project_list' %}?category={{ s.slug }}"
+          class="btn {% if selected_service_slug == s.slug %}btn-dark{% else %}btn-outline-dark{% endif %}"
+          style="font-size: 0.8125rem; padding: 0.45rem 1rem;"
+        >
+          {{ s.title }}
+        </a>
+      {% endfor %}
+    </div>
+
+    <!-- Project Cards Grid -->
+    <div class="card-grid">
+      {% for project in projects %}
+        <div class="card">
+          <div class="card-img-wrap">
+            {% if project.cover_image %}
+              <img src="{{ project.cover_image.url }}" alt="{{ project.title }}" style="width: 100%; height: 100%; object-fit: cover;">
+            {% else %}
+              <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background-color: var(--color-charcoal); color: #D1D5DB; font-size: 0.875rem; padding: 1.25rem; text-align: center;">
+                {{ project.title }}
+              </div>
+            {% endif %}
+          </div>
+          <div class="card-body">
+            {% if project.is_demonstration %}
+              <div class="demo-banner">
+                Demonstration Record &bull; Not Actual Company Work
+              </div>
+            {% endif %}
+
+            <h2 class="card-title" style="font-size: 1.125rem;">{{ project.title }}</h2>
+            <div style="font-size: 0.8125rem; color: var(--color-muted); margin-bottom: 0.5rem;">
+              <span>{{ project.location }}</span>
+              {% if project.service %}
+                <span> &bull; {{ project.service.title }}</span>
+              {% endif %}
+            </div>
+
+            <p class="card-text">{{ project.summary }}</p>
+
+            <a href="{{ project.get_absolute_url }}" style="font-weight: 600; font-size: 0.875rem; color: var(--color-primary-black); margin-top: auto;">
+              View Project Details &rarr;
+            </a>
+          </div>
+        </div>
+      {% empty %}
+        <div style="text-align: center; padding: 4rem 1rem; grid-column: 1 / -1; background-color: var(--color-white); border: 1px solid var(--color-border); border-radius: 6px;">
+          <h3>No projects found in this category</h3>
+          <p style="color: var(--color-muted); margin: 0.5rem 0 1.5rem;">
+            No published projects match the selected category filter at this time.
+          </p>
+          <a href="{% url 'projects:project_list' %}" class="btn btn-outline-dark">
+            View All Categories
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Pagination Controls -->
+    {% if page_obj.has_other_pages %}
+      <div style="display: flex; justify-content: center; gap: 0.5rem; margin-top: 3.5rem;">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}{% if selected_service_slug %}&category={{ selected_service_slug }}{% endif %}" class="btn btn-outline-dark" style="font-size: 0.8125rem;">
+            &larr; Previous
+          </a>
+        {% endif %}
+
+        <span style="display: inline-flex; align-items: center; padding: 0 1rem; font-size: 0.875rem; color: var(--color-muted);">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}{% if selected_service_slug %}&category={{ selected_service_slug }}{% endif %}" class="btn btn-outline-dark" style="font-size: 0.8125rem;">
+            Next &rarr;
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

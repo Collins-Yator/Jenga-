@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ project.get_seo_title }}{% endblock %}
+{% block meta_description %}{{ project.get_seo_description }}{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section style="background-color: var(--color-primary-black); color: var(--color-white); padding: 3.5rem 0; border-bottom: 3px solid var(--color-construction-yellow);">
+  <div class="container">
+    <div style="font-size: 0.8125rem; color: #9CA3AF; margin-bottom: 0.75rem;">
+      <a href="{% url 'core:home' %}" style="color: #9CA3AF;">Home</a> &bull;
+      <a href="{% url 'projects:project_list' %}" style="color: #9CA3AF;">Projects</a> &bull;
+      <span style="color: var(--color-construction-yellow);">{{ project.title }}</span>
+    </div>
+    <h1 style="color: var(--color-white); font-size: 2.25rem;">{{ project.title }}</h1>
+    <p style="color: #D1D5DB; font-size: 1.0625rem; max-width: 44rem; margin-top: 0.5rem;">
+      {{ project.summary }}
+    </p>
+  </div>
+</section>
+
+<section style="padding: 4rem 0;">
+  <div class="container">
+    {% if project.is_demonstration %}
+      <div class="demo-banner" style="margin-bottom: 2rem;">
+        <strong>Demonstration Project Record:</strong> This entry demonstrates portfolio data presentation. It is not verified past company work and should be replaced with genuine Jenga construction contracts before public marketing.
+      </div>
+    {% endif %}
+
+    <div style="display: grid; grid-template-columns: 1fr; gap: 3rem;">
+      <div>
+        <!-- Cover Photograph -->
+        {% if project.cover_image %}
+          <div style="border-radius: 6px; overflow: hidden; max-height: 480px; border: 1px solid var(--color-border); margin-bottom: 2.5rem;">
+            <img src="{{ project.cover_image.url }}" alt="{{ project.title }}" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+        {% endif %}
+
+        <!-- Metadata Strip -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2.5rem; background-color: var(--color-white); padding: 1.5rem; border: 1px solid var(--color-border); border-radius: 6px;">
+          <div>
+            <div style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--color-muted);">Location</div>
+            <div style="font-size: 1rem; font-weight: 600;">{{ project.location|default:'Nairobi, Kenya' }}</div>
+          </div>
+          <div>
+            <div style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--color-muted);">Category</div>
+            <div style="font-size: 1rem; font-weight: 600;">{{ project.service.title|default:'Civil Engineering' }}</div>
+          </div>
+          <div>
+            <div style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--color-muted);">Commencement</div>
+            <div style="font-size: 1rem; font-weight: 600;">{{ project.start_date|default:'Not specified' }}</div>
+          </div>
+          <div>
+            <div style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--color-muted);">Completion</div>
+            <div style="font-size: 1rem; font-weight: 600;">{{ project.completion_date|default:'Ongoing' }}</div>
+          </div>
+        </div>
+
+        <!-- Project Description -->
+        <div style="background-color: var(--color-white); padding: 2.5rem; border: 1px solid var(--color-border); border-radius: 6px; margin-bottom: 3rem;">
+          <h2 style="font-size: 1.5rem; margin-bottom: 1.25rem;">Project Overview &amp; Execution</h2>
+          <div style="color: #374151; font-size: 1.0625rem; line-height: 1.8; white-space: pre-line; margin-bottom: 2rem;">
+            {{ project.description }}
+          </div>
+
+          <!-- CTAs -->
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="{% url 'enquiries:quote_request' %}{% if project.service %}?service={{ project.service.slug }}{% endif %}" class="btn btn-primary">
+              Enquire About Similar Project
+            </a>
+            <a href="{{ whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">
+              WhatsApp Us About This Project
+            </a>
+          </div>
+        </div>
+
+        <!-- Project Gallery Images -->
+        {% if gallery_images %}
+          <div style="margin-bottom: 3.5rem;">
+            <h3 style="font-size: 1.35rem; margin-bottom: 1.25rem;">Project Site Photography</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem;">
+              {% for img in gallery_images %}
+                <a href="{{ img.image.url }}" data-gallery-src="{{ img.image.url }}" data-gallery-caption="{{ img.caption|default:img.alt_text }}" style="display: block; border-radius: 4px; overflow: hidden; aspect-ratio: 4/3; border: 1px solid var(--color-border);">
+                  <img src="{{ img.image.url }}" alt="{{ img.alt_text }}" style="width: 100%; height: 100%; object-fit: cover;">
+                </a>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- Related Projects -->
+        {% if related_projects %}
+          <div>
+            <h3 style="font-size: 1.35rem; margin-bottom: 1.25rem;">Related Construction Works</h3>
+            <div class="card-grid">
+              {% for rel in related_projects %}
+                <div class="card">
+                  <div class="card-body">
+                    <h4 style="font-size: 1.125rem; margin-bottom: 0.35rem;">{{ rel.title }}</h4>
+                    <p style="font-size: 0.8125rem; color: var(--color-muted); margin-bottom: 0.75rem;">{{ rel.location }}</p>
+                    <p class="card-text">{{ rel.summary|truncatewords:12 }}</p>
+                    <a href="{{ rel.get_absolute_url }}" style="font-size: 0.875rem; font-weight: 600; margin-top: auto;">
+                      View Details &rarr;
+                    </a>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox Modal Container -->
+<div id="galleryLightboxModal" class="hidden" style="position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+  <div style="position: relative; max-width: 900px; width: 100%; text-align: center;">
+    <button id="lightboxClose" type="button" style="position: absolute; top: -2.5rem; right: 0; background: none; border: none; color: white; font-size: 2rem; cursor: pointer;">&times;</button>
+    <img id="lightboxActiveImage" src="" alt="Active site photo" style="max-height: 80vh; margin: 0 auto; border-radius: 4px;">
+    <p id="lightboxCaption" style="color: #D1D5DB; margin-top: 1rem; font-size: 0.9375rem;"></p>
+  </div>
+</div>
+{% endblock %}

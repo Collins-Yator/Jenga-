@@ -1,0 +1,31 @@
+{% if messages %}
+  <div class="container" style="padding-top: 1.5rem;">
+    {% for message in messages %}
+      <div class="alert-box" style="
+        padding: 1rem 1.25rem;
+        margin-bottom: 1rem;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.9375rem;
+        {% if message.tags == 'success' %}
+          background-color: #DCFCE7;
+          border: 1px solid #86EFAC;
+          color: #14532D;
+        {% elif message.tags == 'error' %}
+          background-color: #FEE2E2;
+          border: 1px solid #FCA5A5;
+          color: #7F1D1D;
+        {% else %}
+          background-color: #FEF3C7;
+          border: 1px solid #FDE68A;
+          color: #78350F;
+        {% endif %}
+      ">
+        <span>{{ message }}</span>
+        <button type="button" class="alert-close" style="background: none; border: none; font-size: 1.25rem; cursor: pointer; color: inherit;" aria-label="Dismiss message">&times;</button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}

@@ -1,0 +1,67 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <!-- Col 1: Brand & Identity -->
+      <div>
+        <div class="brand-logo" style="margin-bottom: 1rem;">
+          <span class="brand-accent-box">J</span>
+          <span>JENGA <span style="color: var(--color-construction-yellow);">CONSTRUCTION</span></span>
+        </div>
+        <p style="color: #9CA3AF; font-size: 0.875rem; line-height: 1.6; margin-bottom: 1.25rem;">
+          Specialized civil engineering, road networks, structural bridges, building developments, and landscape spaces in Nairobi and across Kenya.
+        </p>
+        <div style="font-size: 0.875rem; color: #D1D5DB;">
+          <p><strong>Location:</strong> {{ company_location }}</p>
+          <p><strong>WhatsApp:</strong> {{ site_settings.local_whatsapp_display|default:'0792729492' }}</p>
+          {% if site_settings.public_email %}
+            <p><strong>Email:</strong> {{ site_settings.public_email }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Col 2: Services -->
+      <div>
+        <h4 class="footer-title">Services</h4>
+        <a href="{% url 'services:service_list' %}" class="footer-link">Road Construction</a>
+        <a href="{% url 'services:service_list' %}" class="footer-link">Bridge Construction</a>
+        <a href="{% url 'services:service_list' %}" class="footer-link">Building Construction</a>
+        <a href="{% url 'services:service_list' %}" class="footer-link">Landscaping Services</a>
+        <a href="{% url 'services:service_list' %}" class="footer-link">Civil & Earthworks</a>
+      </div>
+
+      <!-- Col 3: Navigation -->
+      <div>
+        <h4 class="footer-title">Company</h4>
+        <a href="{% url 'core:home' %}" class="footer-link">Home</a>
+        <a href="{% url 'core:about' %}" class="footer-link">About Us</a>
+        <a href="{% url 'projects:project_list' %}" class="footer-link">Portfolio Projects</a>
+        <a href="{% url 'enquiries:testimonials' %}" class="footer-link">Client Testimonials</a>
+        <a href="{% url 'core:contact' %}" class="footer-link">Contact Information</a>
+        <a href="{% url 'enquiries:quote_request' %}" class="footer-link">Request a Quotation</a>
+      </div>
+
+      <!-- Col 4: Quick Action -->
+      <div>
+        <h4 class="footer-title">Need a Quote?</h4>
+        <p style="font-size: 0.875rem; color: #9CA3AF; margin-bottom: 1rem;">
+          Connect directly with our estimating team for project inquiries and site assessments.
+        </p>
+        <a href="{% url 'enquiries:quote_request' %}" class="btn btn-primary" style="width: 100%; margin-bottom: 0.75rem;">
+          Submit Project Details
+        </a>
+        <a href="https://wa.me/{{ company_whatsapp_number }}?text=Hello+Jenga+Construction+Limited" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp" style="width: 100%;">
+          Open WhatsApp Chat
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; {% now "Y" %} {{ company_name }}. All rights reserved.</p>
+      <div style="display: flex; gap: 1.5rem;">
+        <span style="color: #6B7280;">Nairobi, Kenya</span>
+        <a href="{% url 'core:robots_txt' %}" style="color: #6B7280;">Robots.txt</a>
+        <a href="{% url 'core:sitemap_xml' %}" style="color: #6B7280;">Sitemap</a>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ company_name }} | Building Strong Foundations, Nairobi Kenya{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}Professional construction, civil engineering, building, infrastructure, and landscaping services based in Nairobi, Kenya. Request a quote today.{% endblock %}">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{% block og_title %}{{ company_name }}{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Civil engineering, building, infrastructure, and landscaping services in Nairobi, Kenya.{% endblock %}">
+  <meta property="og:site_name" content="{{ company_name }}">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ company_name }}">
+  <meta name="twitter:description" content="Civil engineering and building services in Nairobi, Kenya.">
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..800;1,9..40,300..800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  {% include 'includes/navbar.html' %}
+
+  <main id="mainContent">
+    {% include 'includes/messages.html' %}
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include 'includes/whatsapp_button.html' %}
+  {% include 'includes/footer.html' %}
+
+  <!-- Scripts -->
+  <script src="{% static 'js/main.js' %}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

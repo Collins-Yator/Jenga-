@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Access Denied (403) | Jenga Construction Limited{% endblock %}
+
+{% block content %}
+<section style="padding: 6rem 0; min-height: 60vh; display: flex; align-items: center;">
+  <div class="container" style="max-width: 600px; text-align: center;">
+    <h1 style="font-size: 3.5rem; color: var(--color-primary-black); margin-bottom: 0.5rem;">403</h1>
+    <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Permission Denied</h2>
+    <p style="color: var(--color-muted); line-height: 1.6; margin-bottom: 2rem;">
+      You do not have authorization to view this resource or perform this administrative operation.
+    </p>
+    <a href="{% url 'core:home' %}" class="btn btn-primary">
+      Return to Homepage
+    </a>
+  </div>
+</section>
+{% endblock %}

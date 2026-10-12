@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us | Jenga Construction Limited Nairobi Kenya{% endblock %}
+{% block meta_description %}Contact Jenga Construction Limited in Nairobi, Kenya. Enquire about civil engineering, road, bridge, and building construction via WhatsApp or message.{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section style="background-color: var(--color-primary-black); color: var(--color-white); padding: 3.5rem 0; border-bottom: 3px solid var(--color-construction-yellow);">
+  <div class="container">
+    <div style="color: var(--color-construction-yellow); font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">
+      Get In Touch
+    </div>
+    <h1 style="color: var(--color-white); font-size: 2.5rem;">Contact Jenga Construction Limited</h1>
+    <p style="color: #9CA3AF; font-size: 1.0625rem; max-width: 42rem; margin-top: 0.75rem;">
+      We welcome enquiries from homeowners, developers, and institutions across Kenya.
+    </p>
+  </div>
+</section>
+
+<section style="padding: 4.5rem 0;">
+  <div class="container">
+    <div style="display: grid; grid-template-columns: 1fr; gap: 3rem;">
+      <div style="display: grid; grid-template-columns: 1fr; gap: 2.5rem;">
+        {% if form.errors %}
+          <div class="demo-banner" style="background-color: #FEE2E2; border-color: #DC2626; color: #991B1B;">
+            Please correct the errors in the form below before proceeding.
+          </div>
+        {% endif %}
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem;">
+          <!-- Left Col: Contact Information -->
+          <div>
+            <h2 style="font-size: 1.75rem; margin-bottom: 1.25rem;">Contact Information</h2>
+            <p style="color: var(--color-muted); line-height: 1.7; margin-bottom: 2rem;">
+              For immediate project inquiries, rapid estimation consultation, or site visits in Nairobi and surrounding counties, message us on WhatsApp or submit a written enquiry.
+            </p>
+
+            <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2.5rem;">
+              <div style="background-color: var(--color-white); border: 1px solid var(--color-border); padding: 1.25rem; border-radius: 4px;">
+                <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.25rem;">
+                  WhatsApp Chat (Direct)
+                </div>
+                <div style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">
+                  {{ site_settings.local_whatsapp_display|default:'0792729492' }}
+                </div>
+                <a href="https://wa.me/{{ company_whatsapp_number }}?text=Hello+Jenga+Construction+Limited%2C+I+would+like+to+enquire+about+your+services." target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp" style="font-size: 0.875rem;">
+                  Open WhatsApp Chat
+                </a>
+              </div>
+
+              <div style="background-color: var(--color-white); border: 1px solid var(--color-border); padding: 1.25rem; border-radius: 4px;">
+                <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.25rem;">
+                  General Location
+                </div>
+                <div style="font-size: 1.125rem; font-weight: 700;">
+                  {{ company_location }}
+                </div>
+                <p style="font-size: 0.8125rem; color: var(--color-muted); margin-top: 0.25rem;">
+                  Serving Nairobi, Kiambu, Machakos, Kajiado, and nationwide Kenya projects.
+                </p>
+              </div>
+
+              {% if site_settings.public_email %}
+                <div style="background-color: var(--color-white); border: 1px solid var(--color-border); padding: 1.25rem; border-radius: 4px;">
+                  <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.25rem;">
+                    Email Address
+                  </div>
+                  <div style="font-size: 1.125rem; font-weight: 700;">
+                    <a href="mailto:{{ site_settings.public_email }}">{{ site_settings.public_email }}</a>
+                  </div>
+                </div>
+              {% endif %}
+
+              <div style="background-color: var(--color-white); border: 1px solid var(--color-border); padding: 1.25rem; border-radius: 4px;">
+                <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.25rem;">
+                  Operational Hours
+                </div>
+                <p style="font-size: 0.9375rem; color: #374151;">
+                  {{ site_settings.business_hours|default:'Monday - Friday: 8:00 AM - 5:00 PM (EAT)' }}
+                </p>
+              </div>
+            </div>
+
+            <div style="background-color: #FEF3C7; border: 1px solid #FDE68A; padding: 1.25rem; border-radius: 4px;">
+              <h4 style="font-size: 0.9375rem; color: #92400E; margin-bottom: 0.25rem;">Looking for a Detailed Price Estimate?</h4>
+              <p style="font-size: 0.875rem; color: #78350F; margin-bottom: 0.75rem;">
+                Submit your project specifications via our quotation request form to receive a formalized tracking reference.
+              </p>
+              <a href="{% url 'enquiries:quote_request' %}" class="btn btn-dark" style="font-size: 0.8125rem;">
+                Go to Quotation Form &rarr;
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Col: General Contact Form -->
+          <div>
+            <div class="form-card">
+              <h3 style="margin-bottom: 0.5rem;">Send a General Enquiry</h3>
+              <p style="color: var(--color-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+                Fill out the form below and our administrative team will respond promptly.
+              </p>
+
+              <form action="{% url 'enquiries:contact_submit' %}" method="post" novalidate>
+                {% csrf_token %}
+
+                <!-- Honeypot protection field -->
+                <div style="display: none;">
+                  {{ form.middle_initial }}
+                </div>
+
+                <div class="form-group">
+                  <label for="{{ form.name.id_for_label }}" class="form-label">Full Name *</label>
+                  {{ form.name }}
+                  {% if form.name.errors %}
+                    <div class="form-error">{{ form.name.errors.0 }}</div>
+                  {% endif %}
+                </div>
+
+                <div class="form-group">
+                  <label for="{{ form.email.id_for_label }}" class="form-label">Email Address *</label>
+                  {{ form.email }}
+                  {% if form.email.errors %}
+                    <div class="form-error">{{ form.email.errors.0 }}</div>
+                  {% endif %}
+                </div>
+
+                <div class="form-group">
+                  <label for="{{ form.phone.id_for_label }}" class="form-label">Phone Number (Optional)</label>
+                  {{ form.phone }}
+                  {% if form.phone.errors %}
+                    <div class="form-error">{{ form.phone.errors.0 }}</div>
+                  {% endif %}
+                </div>
+
+                <div class="form-group">
+                  <label for="{{ form.subject.id_for_label }}" class="form-label">Subject *</label>
+                  {{ form.subject }}
+                  {% if form.subject.errors %}
+                    <div class="form-error">{{ form.subject.errors.0 }}</div>
+                  {% endif %}
+                </div>
+
+                <div class="form-group">
+                  <label for="{{ form.message.id_for_label }}" class="form-label">Message *</label>
+                  {{ form.message }}
+                  {% if form.message.errors %}
+                    <div class="form-error">{{ form.message.errors.0 }}</div>
+                  {% endif %}
+                </div>
+
+                <div class="form-group">
+                  <label class="form-check">
+                    {{ form.consent }}
+                    <span>{{ form.consent.label }}</span>
+                  </label>
+                  {% if form.consent.errors %}
+                    <div class="form-error">{{ form.consent.errors.0 }}</div>
+                  {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem;">
+                  Send Message
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Google Maps Section (Configurable; only rendered when embed URL is supplied) -->
+        {% if site_settings.google_maps_embed_url %}
+          <div style="margin-top: 2rem;">
+            <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Location Map</h3>
+            <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--color-border); height: 350px;">
+              <iframe
+                src="{{ site_settings.google_maps_embed_url }}"
+                width="100%"
+                height="100%"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Jenga Construction Limited Location Map"
+              ></iframe>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
